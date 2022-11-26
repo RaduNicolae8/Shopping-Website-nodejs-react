@@ -32,18 +32,19 @@ function App() {
 //   )
 // }
 
-const [usernameReg, setUsernameReg] = useState("rad");
-const [passwordReg, setPasswordReg] = useState("rad");
+const [usernameReg, setUsernameReg] = useState("");
+const [passwordReg, setPasswordReg] = useState("");
 
 const register = () => {
-  console.log("b");
-  axios.post('http://localhost:5000/register' , {
+  //console.log("b");
+  axios.post('http://localhost:5000/registerService' , {
     username: usernameReg, 
     password: passwordReg
   }).then((response) =>{
     console.log(response);
     console.log(response.data);
-    console.log("a1");
+    // console.log("a1");
+    alert("Registration successful");
   }).catch((error) => {
    // console.log("b2");
     if( error.response.data.message == "Duplicate");
@@ -52,7 +53,26 @@ const register = () => {
   } )
 };
 
+const login = () => {
+  console.log("b");
+  axios.post('http://localhost:5000/loginService' , {
+    username: usernameReg, 
+    password: passwordReg
+  }).then((response) =>{
+    console.log(response);
+    console.log(response.data);
+    // console.log("a1");
+    alert("Login successful");
+    
+  }).catch((error) => {
+   // console.log("b2");
+    alert("Bad credentials.")
+
+  } )
+};
+
 return(
+  
   <div className = "App">
     <div className = "registration">
       <h1>Registration</h1>
@@ -74,9 +94,21 @@ return(
     </div>
     <div className="login ">
         <h1>Login</h1>
-        <input type="text" placeholder="Username..." />
-        <input type="password" placeholder="Password..." />
-        <button> Login </button>
+        <label>username</label>
+      <input
+       type="text" 
+       onChange ={(e) => {
+        setUsernameReg(e.target.value);
+       }} 
+       /> <br/>
+      <label>password</label>
+      <input
+       type="password" 
+       onChange ={(e) => {
+        setPasswordReg(e.target.value);
+       }} 
+       /> <br/>
+        <button onClick={login}> Login </button>
     </div>
   </div>
 )

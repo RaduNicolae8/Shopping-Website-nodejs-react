@@ -18,7 +18,7 @@ const db = mysql.createConnection({
     database: "LoginSystem",
 });
 
-app.post('/register', (req,res) =>{
+app.post('/registerService', (req,res) =>{
     
     const username = req.body.username
     const password = req.body.password
@@ -41,5 +41,32 @@ app.post('/register', (req,res) =>{
             
     })
 })
+
+app.post('/loginService', (req,res) =>{
+    
+    const username = req.body.username
+    const password = req.body.password
+
+    
+    db.query("SELECT * FROM users WHERE USR_NAM = ? AND PASS = ?;", 
+    [username, password],
+     (err,result) => {
+        console.log(err);
+        if (result!="")
+        {
+            console.log(result)
+            return res.status(200).send({
+                message: "OsK"
+               });
+        }
+         return res.status(400).send({
+            message: "Invalid credentials."
+        })
+       });
+       
+       
+            
+    })
+
 
 app.listen(5000, () => {console.log("Server started on port 5000...")} )
