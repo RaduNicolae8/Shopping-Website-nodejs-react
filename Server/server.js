@@ -15,7 +15,7 @@ const db = mysql.createConnection({
     user: "root",
     host: "localhost",
     password: "ParolaDB12#",
-    database: "LoginSystem",
+    database: "sys",
 });
 
 app.post('/registerService', (req,res) =>{
@@ -24,7 +24,7 @@ app.post('/registerService', (req,res) =>{
     const password = req.body.password
 
     
-    db.query("INSERT INTO users (USR_NAM, PASS) VALUES (?,?)", 
+    db.query("INSERT INTO sys.users (USR_NAM, PASS) VALUES (?,?)", 
     [username, password],
      (err,result) => {
         console.log(err);
@@ -48,7 +48,7 @@ app.post('/loginService', (req,res) =>{
     const password = req.body.password
 
     
-    db.query("SELECT * FROM users WHERE USR_NAM = ? AND PASS = ?;", 
+    db.query("SELECT * FROM sys.users WHERE USR_NAM = ? AND PASS = ?;", 
     [username, password],
      (err,result) => {
         console.log(err);
@@ -56,7 +56,7 @@ app.post('/loginService', (req,res) =>{
         {
             console.log(result)
             return res.status(200).send({
-                message: "OsK"
+                message: "OK"
                });
         }
          return res.status(400).send({

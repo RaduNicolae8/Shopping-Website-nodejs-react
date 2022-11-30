@@ -1,6 +1,10 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import "./App.css";
+import Button from '@mui/material/Button';
+import Textfield from '@mui/material/TextField';
+
+
 
 
 function App() {
@@ -32,8 +36,13 @@ function App() {
 //   )
 // }
 
-const [usernameReg, setUsernameReg] = useState("");
-const [passwordReg, setPasswordReg] = useState("");
+const [usernameReg, setUsernameReg] = useState('');
+const [passwordReg, setPasswordReg] = useState('');
+
+const [username, setUsername] = useState('');
+const [password, setPassword] = useState('');
+
+const [loginStatus, setLoginStatus]= useState('');
 
 const register = () => {
   //console.log("b");
@@ -44,10 +53,12 @@ const register = () => {
     console.log(response);
     console.log(response.data);
     // console.log("a1");
+    setUsernameReg('');
+    setPasswordReg('');
     alert("Registration successful");
   }).catch((error) => {
    // console.log("b2");
-    if( error.response.data.message == "Duplicate");
+    if( error.response.data.message === "Duplicate");
     alert("Username already exists.")
 
   } )
@@ -56,12 +67,14 @@ const register = () => {
 const login = () => {
   console.log("b");
   axios.post('http://localhost:5000/loginService' , {
-    username: usernameReg, 
-    password: passwordReg
+    username: username, 
+    password: password
   }).then((response) =>{
     console.log(response);
     console.log(response.data);
     // console.log("a1");
+    setUsername('');
+    setPassword('');
     alert("Login successful");
     
   }).catch((error) => {
@@ -76,39 +89,51 @@ return(
   <div className = "App">
     <div className = "registration">
       <h1>Registration</h1>
-      <label>username</label>
-      <input
-       type="text" 
+      <Textfield
+       type="text"
+       label = "Username" 
+       value= {usernameReg}
+       variant = "outlined"
        onChange ={(e) => {
         setUsernameReg(e.target.value);
        }} 
        /> <br/>
-      <label>password</label>
-      <input
+      <Textfield
        type="password" 
+       label = "Password"
+       variant = "outlined"
+       value = {passwordReg}
        onChange ={(e) => {
         setPasswordReg(e.target.value);
        }} 
        /> <br/>
-      <button onClick={register}> Register </button>
+      <Button variant = "contained" onClick={register}> Register </Button>
     </div>
     <div className="login ">
         <h1>Login</h1>
-        <label>username</label>
-      <input
-       type="text" 
+      <Textfield
+       type="text"
+       label="Username"
+       variant="outlined" 
+       value = {username}
        onChange ={(e) => {
-        setUsernameReg(e.target.value);
+        setUsername(e.target.value);
        }} 
        /> <br/>
-      <label>password</label>
-      <input
+      <Textfield
        type="password" 
+       label = "Password"
+       variant = "outlined"
+       value = {password}
        onChange ={(e) => {
-        setPasswordReg(e.target.value);
+        setPassword(e.target.value);
        }} 
        /> <br/>
-        <button onClick={login}> Login </button>
+        <Button 
+        variant="contained"
+        color = "secondary"
+         onClick={login}
+         > Login </Button>
     </div>
   </div>
 )
